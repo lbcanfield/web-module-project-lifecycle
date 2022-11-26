@@ -17,8 +17,7 @@ export default class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    console.log('Component Did Mount');
+  getTasks = () => {
     axios.get(URL)
       .then(response => {
         // console.log(response.data.data);
@@ -30,15 +29,33 @@ export default class App extends React.Component {
       })
   }
 
+  pushTask = (newTask) => {
+    console.log(newTask);
+    axios.post(URL, { name: newTask })
+      .then(response => {
+        this.getTasks();
+      })
+      .catch(error => {
+        // console.error(error.response.data.message)
+        this.setState({ ...this.state, error_msg: error.response.data.message })
+      })
+
+  }
+
+  componentDidMount() {
+    console.log('Component Did Mount');
+    this.getTasks();
+  }
 
 
   render() {
-    console.log('Component Did Render to the Browser')
+    // console.log('Component Did Render to the Browser')
+    // console.log(this.state.tasks)
     return (
       <div>
         <div id='error'>{this.state.error_msg}</div>    {/*id (error) found in styles.css*/}
         < TodoList tasks={this.state.tasks} />
-        <Form />
+        <Form URL={URL} pushTask={this.pushTask} />
       </div >
     )
   }
