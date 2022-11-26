@@ -36,7 +36,7 @@ export default class App extends React.Component {
     return (
       <div>
         <div id='error'>{this.state.error_msg}</div>    {/*id (error) found in styles.css*/}
-        < TodoList />
+        < TodoList tasks={this.state.tasks} />
         <Form />
       </div >
     )
