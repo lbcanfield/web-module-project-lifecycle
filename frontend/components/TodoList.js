@@ -1,6 +1,9 @@
 import React from 'react'
 
 export default class TodoList extends React.Component {
+
+
+
   render() {
     // console.log(this.props.tasks)
     return (
@@ -12,7 +15,12 @@ export default class TodoList extends React.Component {
         <div>Mock Task 4</div> */}
         {
           this.props.tasks.map(task => {
-            return <div className='task' key={task.id}>{task.name}</div>
+            return <div
+              className='task'
+              onClick={this.props.taskCompleted(task.id)}
+              key={task.id}>{task.name}
+              {task.completed ? ' - Completed' : ''}
+            </div>
           })
         }
       </div>

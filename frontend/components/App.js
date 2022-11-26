@@ -17,6 +17,30 @@ export default class App extends React.Component {
     }
   }
 
+  taskCompleted = (value) => event => {
+    event.preventDefault();
+    console.log(value);
+    axios.patch(`${URL}/${value}`)
+      .then(response => {
+        this.getTasks()
+      })
+      .catch(this.requestErrorMsg)
+  }
+
+  clearCompleted = () => {
+    this.setState({
+      ...this.state, tasks: this.state.tasks.filter(task => {
+        if (!task.completed) {
+          return task;
+        }
+      })
+    })
+  }
+
+  requestErrorMsg = (error) => {
+    this.setState({ ...this.state, error_msg: error.response.data.message })
+  }
+
   getTasks = () => {
     axios.get(URL)
       .then(response => {
@@ -25,7 +49,7 @@ export default class App extends React.Component {
       })
       .catch(error => {
         // console.error(error.response.data.message)
-        this.setState({ ...this.state, error_msg: error.response.data.message })
+        this.requestErrorMsg(error);
       })
   }
 
@@ -37,7 +61,8 @@ export default class App extends React.Component {
       })
       .catch(error => {
         // console.error(error.response.data.message)
-        this.setState({ ...this.state, error_msg: error.response.data.message })
+        this.requestErrorMsg(error);
+
       })
 
   }
@@ -47,15 +72,14 @@ export default class App extends React.Component {
     this.getTasks();
   }
 
-
   render() {
     // console.log('Component Did Render to the Browser')
     // console.log(this.state.tasks)
     return (
       <div>
         <div id='error'>{this.state.error_msg}</div>    {/*id (error) found in styles.css*/}
-        < TodoList tasks={this.state.tasks} />
-        <Form URL={URL} pushTask={this.pushTask} />
+        < TodoList taskCompleted={this.taskCompleted} tasks={this.state.tasks} />
+        <Form URL={URL} pushTask={this.pushTask} clearCompleted={this.clearCompleted} />
       </div >
     )
   }
