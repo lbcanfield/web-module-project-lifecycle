@@ -7,13 +7,13 @@ import TodoList from '../components/TodoList';
 import Form from '../components/Form';
 
 const URL = 'http://localhost:9000/api/todos'
-const error_msg = '';
 
 export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      tasks: []
+      tasks: [],
+      error_msg: ''
     }
   }
 
@@ -25,10 +25,8 @@ export default class App extends React.Component {
         this.setState({ ...this.state, tasks: response.data.data })
       })
       .catch(error => {
-        if (error !== null) {
-          error_msg = error
-        }
-        // console.error(error)
+        // console.error(error.response.data.message)
+        this.setState({ ...this.state, error_msg: error.response.data.message })
       })
   }
 
@@ -37,7 +35,7 @@ export default class App extends React.Component {
     console.log('Component Did Render to the Browser')
     return (
       <div>
-        <div id='error'>{error_msg}</div>    {/*id (error) found in styles.css*/}
+        <div id='error'>{this.state.error_msg}</div>    {/*id (error) found in styles.css*/}
         < TodoList />
         <Form />
       </div >

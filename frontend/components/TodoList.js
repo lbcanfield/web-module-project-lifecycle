@@ -5,10 +5,10 @@ export default class TodoList extends React.Component {
     return (
       <div id='todos'>                              {/*id (todos) found in styles.css*/}
         <h2>Todos:</h2>
-        <div>Mock Task 1</div>
+        {/* <div>Mock Task 1</div>
         <div>Mock Task 2</div>
         <div>Mock Task 3</div>
-        <div>Mock Task 4</div>
+        <div>Mock Task 4</div> */}
       </div>
     )
   }
