@@ -27,7 +27,8 @@ export default class App extends React.Component {
       .catch(this.requestErrorMsg)
   }
 
-  clearCompleted = () => {
+  clearCompleted = event => {
+    event.preventDefault();
     this.setState({
       ...this.state, tasks: this.state.tasks.filter(task => {
         if (!task.completed) {
